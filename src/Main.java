@@ -4,46 +4,34 @@ public class Main {
     public static void main(String[] args) {
         System.out.print("Enter cells: ");
         String combined = new Scanner(System.in).next();
-        String[] lines = combined.split("(?<=\\G.{3})");
+        String[][] cells = {combined.substring(0, 3).split(""), combined.substring(3, 6).split(""),
+                combined.substring(6).split("")};
 
-        printGrid(lines);
-        printResults(lines, combined);
+        printGrid(cells);
+        printResults(cells, combined);
     }
 
-    private static void printGrid(String[] lines) {
+    private static void printGrid(String[][] cells) {
         String dashes = "---------";
 
         System.out.println(dashes);
-        for (String line : lines) {
-            char[] chars = line.toCharArray();
-            System.out.println("| " + chars[0] + " " + chars[1] + " " + chars[2] + " |");
-        }
+        for (String[] chars : cells) System.out.println("| " + chars[0] + " " + chars[1] + " " + chars[2] + " |");
         System.out.println(dashes);
     }
 
-    private static void printResults(String[] lines, String combined) {
-        int xCount = charCount(combined, "X");
-        int oCount = charCount(combined, "O");
-        boolean xWins = checkWin(lines, "X");
-        boolean oWins = checkWin(lines, "O");
+    private static void printResults(String[][] cells, String combined) {
+        int xCount = combined.length() - combined.replace("X", "").length();
+        int oCount = combined.length() - combined.replace("O", "").length();
+        boolean xWins = checkWin(cells, "X");
+        boolean oWins = checkWin(cells, "O");
         boolean empty = combined.contains("_");
 
         System.out.println(xWins && oWins || Math.abs(xCount - oCount) > 1 ? "Impossible" : xWins ? "X wins" :
                 oWins ? "O wins" : empty ? "Game not finished" : "Draw");
     }
 
-    private static int charCount(String text, String check) {
-        String[] letter = text.split("");
-        int count = 0;
-
-        for (String one : letter) if (one.equals(check)) count++;
-        return count;
-    }
-
-    private static Boolean checkWin(String[] lines, String check) {
-        String[][] cells = {lines[0].split(""), lines[1].split(""), lines[2].split("")};
-
-        for (String line : lines) if ((line).equals(check.repeat(3))) return true;
+    private static Boolean checkWin(String[][] cells, String check) {
+        for (String[] line : cells) if ((line[0] + line[1] + line[2]).equals(check.repeat(3))) return true;
         for (int i = 0; i < cells.length; i++) {
             if (cells[0][i].equals(check) && cells[1][i].equals(check) && cells[2][i].equals(check)) return true;
         }
