@@ -43,9 +43,7 @@ public class Main {
     private static Boolean checkWin(String[] lines, String check) {
         String[][] cells = {lines[0].split(""), lines[1].split(""), lines[2].split("")};
 
-        for (String[] line : cells) {
-            if ((line[0] + line[1] + line[2]).equals(check.repeat(3))) return true;
-        }
+        for (String line : lines) if ((line).equals(check.repeat(3))) return true;
         for (int i = 0; i < cells.length; i++) {
             if (cells[0][i].equals(check) && cells[1][i].equals(check) && cells[2][i].equals(check)) return true;
         }
