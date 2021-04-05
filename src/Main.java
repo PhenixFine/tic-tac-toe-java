@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +6,7 @@ public class Main {
         String letter = "X";
         boolean xWins = false;
         boolean oWins = false;
-        boolean empty;
+        int empty = 9;
 
         do {
             printGrid(cells);
@@ -19,8 +18,8 @@ public class Main {
                 oWins = checkWin(cells, letter);
                 letter = "X";
             }
-            empty = Arrays.deepToString(cells).contains("_");
-        } while (!xWins && !oWins && empty);
+            empty--;
+        } while (!xWins && !oWins && empty != 0);
 
         printGrid(cells);
         System.out.println(xWins ? "X wins" : oWins ? "O wins" : "Draw");
